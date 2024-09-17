@@ -1,0 +1,12 @@
+{
+  "metric": "ssd_value",
+
+  "images": {
+    "path": "../data",
+    "out_path": "../Part1/results"
+  },
+  "variables": {
+    "crop_size": 20,
+    "window": 5
+  }
+}
