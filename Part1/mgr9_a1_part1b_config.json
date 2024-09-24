@@ -1,0 +1,13 @@
+{
+  "metric": "ncc_value",
+  "height": 6,
+  "factor": 2,
+  "images": {
+    "path": "../hiresData",
+    "out_path": "./results"
+  },
+  "variables": {
+    "crop_size": 175,
+    "window": 15
+  }
+}

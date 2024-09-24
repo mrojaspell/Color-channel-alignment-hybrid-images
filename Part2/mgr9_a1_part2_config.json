@@ -1,0 +1,7 @@
+{
+  "crop_size": 5,
+  "images": {
+    "path": "../data",
+    "out_path": "./results"
+  }
+}

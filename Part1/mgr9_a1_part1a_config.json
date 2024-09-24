@@ -1,0 +1,11 @@
+{
+  "metric": "ncc_value",
+  "images": {
+    "path": "../hiresData",
+    "out_path": "../Part1/results"
+  },
+  "variables": {
+    "crop_size": 8,
+    "window": 25
+  }
+}

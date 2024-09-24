@@ -1,0 +1,16 @@
+{
+  "sigma_high": 15,
+  "sigma_low": 8,
+  "hybrid1": {
+    "img1": "../hybrids/c1.jpg",
+    "img2": "../hybrids/c2.jpg"
+  },
+  "hybrid2": {
+    "img1": "../hybrids/c3.jpg",
+    "img2": "../hybrids/c4.jpg"
+  },
+  "hybrid3": {
+    "img1": "../hybrids/c6.jpg",
+    "img2": "../hybrids/c5.jpg"
+  }
+}

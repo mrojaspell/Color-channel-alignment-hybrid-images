@@ -2,6 +2,7 @@ import numpy as np
 from PIL import Image
 import os
 import json
+import time
 
 def ssd_value(img1, img2):
     return np.sum((img1 - img2) ** 2)
@@ -48,14 +49,14 @@ def align_channels(relative_img, absolute_img, metric, window):
     aligned_img = np.roll(np.roll(relative_img, displacement[1], axis=0), displacement[0], axis=1)
     return aligned_img, displacement, score
 
-def form_image(red_img, green_img, blue_img, out_path, filename):
+def form_image(red_img, green_img, blue_img, out_path, filename, metric=ncc_value):
     colour_img = np.stack([red_img, green_img, blue_img], axis=-1)
     img = Image.fromarray(colour_img)
-    img.save(os.path.join(out_path, "aligned"+filename))
+    img.save(os.path.join(out_path, metric+filename))
 
 
 if __name__ == "__main__":
-    with open("1A_config.json", "r") as f:
+    with open("mgr9_a1_part1a_config.json", "r") as f:
         config = json.load(f)
 
     metric_map = {
@@ -64,17 +65,19 @@ if __name__ == "__main__":
     }
 
     data_path = config["images"]["path"]
-    out_path = config["images"]["out_path"]
-    crop_size = config["variables"]["crop_size"]
-    window_value = config["variables"]["window"]
+    out_direc = config["images"]["out_path"]
+    chosen_crop = config["variables"]["crop_size"]
+    chosen_window = config["variables"]["window"]
     chosen_metric = metric_map[config["metric"]]
     for file in os.listdir(data_path):
         image_path = os.path.join(data_path, file)
         if image_path.lower().endswith(('.png', '.jpg', '.jpeg', '.tif', '.tiff')):
-            blue_frame, green_frame, red_frame = get_channels(image_path, crop_size)
-
-            aligned_framesR, shiftR, scoreR   = align_channels(red_frame, green_frame, chosen_metric, window_value)
-            aligned_framesB, shiftB, scoreB   = align_channels(blue_frame, green_frame, chosen_metric, window_value)
-
-            form_image(aligned_framesR, green_frame, aligned_framesB, out_path, file)
-            print(f"Image {file} has been aligned with a score of {scoreR} and displacement {shiftR} for red and {scoreB}, {shiftB} for blue channel\n")
+            start_time = time.time()
+            blue_frame, green_frame, red_frame = get_channels(image_path, chosen_crop)
+            aligned_framesR, shiftR, scoreR   = align_channels(red_frame, blue_frame, chosen_metric, chosen_window)
+            aligned_framesG, shiftG, scoreG   = align_channels(green_frame, blue_frame, chosen_metric, chosen_window)
+            form_image(aligned_framesR, aligned_framesG, blue_frame, out_direc, file, chosen_metric.__name__)
+            end_time = time.time()
+            total_time = end_time - start_time
+            print(f"Image {file} has been aligned with a score of {scoreR} and displacement {shiftR} for red and {scoreG}, {shiftG} for green channel\n")
+            print(f"Time taken: {total_time}\n")
