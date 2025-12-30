@@ -1,5 +1,5 @@
 # Color-channel-alignment-hybrid-images
-CS 43/ECE549  - Computer Vision
+CS 543/ECE549  - Computer Vision
 
 Assignment 1
 Due date: Monday, September 23, 11:59:59 PM
